@@ -11,6 +11,11 @@ const config: HardhatUserConfig = {
       accounts: [process.env.ACCOUNT_PRIVATE_KEY!],
     },
   },
+  etherscan: {
+    apiKey: {
+      sepolia: process.env.ETH_KEY!,
+    },
+  },
 };
 
 export default config;
