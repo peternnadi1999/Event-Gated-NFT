@@ -7,7 +7,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// nft-address = 0xAaEa0e09f45e8bAf2539316DFaFb13DFA97A802E
+// nft-address = 0x4475A8FBeF5Cf4a92a484B6f5602A91F3abC72D8
+// LagosConferenceNFTModule#LagosConferenceNFT - 0x4475A8FBeF5Cf4a92a484B6f5602A91F3abC72D8
+// EventRegistrationModule#EventRegistration - 0x593552366229BDf5251a96a27dE904D047c72fDE
 
 contract LagosConferenceNFT is ERC721, ERC721URIStorage, Ownable {
     constructor()
@@ -19,7 +21,7 @@ contract LagosConferenceNFT is ERC721, ERC721URIStorage, Ownable {
         public
         onlyOwner
     {
-         string memory url = "ipfs://QmVHMkmbUUpq8qP4aDRHvVTedcmhD86fxsV6hjCRujQptS";
+         string memory url = "ipfs://QmP8EPGEwNuvXH8Gj59ktWSSJL3uyzJWCZVZCndpAvNvqa";
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, url);
     }

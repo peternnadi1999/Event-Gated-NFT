@@ -36,7 +36,7 @@ contract EventRegistration {
 
     constructor()  {
         owner = msg.sender;
-        tokenAdd = 0xAaEa0e09f45e8bAf2539316DFaFb13DFA97A802E;
+        tokenAdd = 0x4475A8FBeF5Cf4a92a484B6f5602A91F3abC72D8;
     }
 
     function onlyOwner() view  private {
