@@ -60,7 +60,7 @@ contract EventRegistration {
         uint _phoneNumber,
         string memory _email) external {
 
-            if(IERC721(tokenAdd).balanceOf(msg.sender) >= 1){
+            if(IERC721(tokenAdd).balanceOf(msg.sender) < 1){
                 revert YouDonnotHaveTheNFT();
             }
             if(msg.sender == owner){
