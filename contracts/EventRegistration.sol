@@ -1,11 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract EventRegistration {
 
     address owner;
     address tokenAdd;
+    uint eventCount;
+
+
+    struct EventName{
+        uint id;
+        string name;
+    }
 
     struct RegistrationDetail{
         address attendeeAdr;
@@ -22,8 +29,10 @@ contract EventRegistration {
     error YouDonnotHaveTheNFT();
 
     event Registered(address indexed  _attendeeAdr, uint indexed  _date );
+    event EventSuccessfullyCreated();
 
-    mapping (address => RegistrationDetail) registrationDetails;
+    mapping (uint => EventName) events;
+    mapping (uint => mapping (address => RegistrationDetail)) registrationDetails;
 
     constructor()  {
         owner = msg.sender;
@@ -37,7 +46,16 @@ contract EventRegistration {
         
     }
 
+
+    function createEvent( string memory _name) external {
+        onlyOwner();
+        eventCount++;
+        events[eventCount]=  EventName(eventCount, _name);
+        emit EventSuccessfullyCreated();
+    }
+
     function register(
+        uint _eventid,
         string memory _name,
         uint _phoneNumber,
         string memory _email) external {
@@ -48,8 +66,8 @@ contract EventRegistration {
             if(msg.sender == owner){
                 revert OwnerCanNotRegister();
             }
-            
-            RegistrationDetail storage registrationDetail = registrationDetails[msg.sender];
+            EventName storage id = events[_eventid];
+            RegistrationDetail storage registrationDetail = registrationDetails[id.id][msg.sender];
             if(msg.sender == registrationDetail.attendeeAdr){
                 revert UserAlreadyRegistered();
             }
@@ -62,13 +80,20 @@ contract EventRegistration {
             emit Registered(registrationDetail.attendeeAdr, registrationDetail.date);
     }
 
-    function getRegisteredUser(address _userAddress) external view returns(RegistrationDetail memory  ){
-        onlyOwner();
-        RegistrationDetail storage registrationDetail = registrationDetails[_userAddress];
+    function getRegisteredUser(address _userAddress, uint _id) external view returns(RegistrationDetail memory  ){
+        EventName storage id = events[_id];
+        RegistrationDetail storage registrationDetail = registrationDetails[id.id][_userAddress];
        if(_userAddress != registrationDetail.attendeeAdr){
             revert UserDidNotRegister();
        }
         return registrationDetail;
+    }
+    function getEvent( uint _id) external view returns(EventName memory  ){
+        EventName storage eventName = events[_id];
+        if(_id != eventName.id){
+            revert("No Event with this Id");
+       }
+        return eventName;
     }
 
 }
